@@ -19,7 +19,7 @@ gulp.task('copy', function() {
 
 //run
 gulp.task('run', function() {
-    gulp.src('src')
+    gulp.src('dist')
         .pipe(webserver({
             livereload: true,
             open: true
@@ -34,13 +34,17 @@ gulp.task('webpack', function() {
 });
 
 //build
-gulp.task('build', gulp.series('clean',gulp.parallel('webpack','copy'),'run'), function(done) {
+gulp.task('build', gulp.series('clean', gulp.parallel('webpack','copy'),'run'), function(done) {
     console.log('BUILD COMPLETE');
     done();
 
 });
-// default task
-gulp.task('default', gulp.series('build'), function(done) {
-    console.log('BUILD OK');
-    done();
+
+//watch
+gulp.task('watch', function() {
+    gulp.watch(['src/**/*.js',
+        'src/*.html'],gulp.series('webpack','copy'));
 });
+
+// default task
+gulp.task('default', gulp.parallel('build','watch'));
