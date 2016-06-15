@@ -2,7 +2,7 @@
 .idea
 
 #npm
-node_modules
+#node_modules
 
 #mac
 .DS_Store
