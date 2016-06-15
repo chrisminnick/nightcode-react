@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 class NewComponent extends React.Component {
     
     render(){
-        return (<div>test {this.props.test}</div>);
+        return (<div>this is the state: {this.props.test}</div>);
     }
 }
 

@@ -20532,7 +20532,7 @@
 	            return _react2.default.createElement(
 	                'div',
 	                null,
-	                'test ',
+	                'this is the state: ',
 	                this.props.test
 	            );
 	        }
@@ -22162,7 +22162,7 @@
 	});
 
 	exports.default = function () {
-	    var state = arguments.length <= 0 || arguments[0] === undefined ? { test: "default" } : arguments[0];
+	    var state = arguments.length <= 0 || arguments[0] === undefined ? { test: "default value of test" } : arguments[0];
 	    var action = arguments[1];
 
 	    switch (action.type) {
