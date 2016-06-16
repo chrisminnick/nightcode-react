@@ -3,7 +3,15 @@ import InputNumber from '../components/InputNumber';
 import CalculateButton from '../components/CalculateButton';
 
 class InputForm extends React.Component {
-
+constructor(props){
+    super(props);
+    this.state = {
+        cost:'',
+        number:'',
+        initial:'',
+        increment:''
+    }
+}
     render(){
 
         return (
