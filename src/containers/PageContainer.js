@@ -1,6 +1,6 @@
 import React from 'react';
-import HelloWorld from '../components/HelloWorld';
-import NewComponent from '../components/NewComponent';
+import InputForm from './InputForm';
+import OutputTable from './OutputTable';
 
 class PageContainer extends React.Component {
 
@@ -8,9 +8,8 @@ class PageContainer extends React.Component {
     render() {
         return(
             <div>
-            <HelloWorld otherthings = "bacon" text = "Everybody"/>
-            <NewComponent />
-
+                <InputForm />
+                <OutputTable />
             </div>
         )
     }
