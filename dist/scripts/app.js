@@ -20392,6 +20392,8 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -20401,20 +20403,44 @@
 	var PageContainer = function (_React$Component) {
 	    _inherits(PageContainer, _React$Component);
 
-	    function PageContainer() {
+	    function PageContainer(props) {
 	        _classCallCheck(this, PageContainer);
 
-	        return _possibleConstructorReturn(this, Object.getPrototypeOf(PageContainer).apply(this, arguments));
+	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(PageContainer).call(this, props));
+
+	        _this.state = {
+	            cost: 0,
+	            number: 0,
+	            initial: 0,
+	            increment: 0
+	        };
+	        _this.inputChangeHandler = _this.inputChangeHandler.bind(_this);
+	        return _this;
 	    }
 
 	    _createClass(PageContainer, [{
+	        key: 'inputChangeHandler',
+	        value: function inputChangeHandler(name, value) {
+	            this.setState(_defineProperty({}, name, value));
+	            console.log(name + ":" + value);
+	        }
+	    }, {
 	        key: 'render',
 	        value: function render() {
 	            return _react2.default.createElement(
 	                'div',
 	                null,
-	                _react2.default.createElement(_InputForm2.default, null),
-	                _react2.default.createElement(_OutputTable2.default, null)
+	                _react2.default.createElement(_InputForm2.default, {
+	                    cost: this.state.cost,
+	                    number: this.state.number,
+	                    initial: this.state.initial,
+	                    increment: this.state.increment,
+	                    onChange: this.inputChangeHandler }),
+	                _react2.default.createElement(_OutputTable2.default, {
+	                    cost: this.state.cost,
+	                    number: this.state.number,
+	                    initial: this.state.initial,
+	                    increment: this.state.increment })
 	            );
 	        }
 	    }]);
@@ -20475,11 +20501,11 @@
 	                _react2.default.createElement(
 	                    'form',
 	                    null,
-	                    _react2.default.createElement(_InputNumber2.default, { label: 'Cost', name: 'cost' }),
-	                    _react2.default.createElement(_InputNumber2.default, { label: 'Number Of Passes', name: 'numberofpasses' }),
-	                    _react2.default.createElement(_InputNumber2.default, { label: 'Initial Distance', name: 'initialdistance' }),
-	                    _react2.default.createElement(_InputNumber2.default, { label: 'Increment', name: 'increment' }),
-	                    _react2.default.createElement(_CalculateButton2.default, null)
+	                    _react2.default.createElement(_InputNumber2.default, { label: 'Cost', name: 'cost', value: this.props.cost, onChange: this.props.onChange }),
+	                    _react2.default.createElement(_InputNumber2.default, { label: 'Number Of Passes', name: 'number', value: this.props.number, onChange: this.props.onChange }),
+	                    _react2.default.createElement(_InputNumber2.default, { label: 'Initial Distance', name: 'initial', value: this.props.initial, onChange: this.props.onChange }),
+	                    _react2.default.createElement(_InputNumber2.default, { label: 'Increment', name: 'increment', value: this.props.increment, onChange: this.props.onChange }),
+	                    _react2.default.createElement(_CalculateButton2.default, { onClick: this.props.onChange })
 	                )
 	            );
 	        }
@@ -20524,6 +20550,11 @@
 	    }
 
 	    _createClass(InputNumber, [{
+	        key: "handleChange",
+	        value: function handleChange(event) {
+	            this.props.onChange(this.props.name, event.target.value);
+	        }
+	    }, {
 	        key: "render",
 	        value: function render() {
 	            return _react2.default.createElement(
@@ -20533,7 +20564,10 @@
 	                    "label",
 	                    null,
 	                    this.props.label,
-	                    _react2.default.createElement("input", { type: "number", name: this.props.name })
+	                    _react2.default.createElement("input", { type: "number",
+	                        name: this.props.name,
+	                        onChange: this.handleChange.bind(this),
+	                        value: this.props.value })
 	                )
 	            );
 	        }
