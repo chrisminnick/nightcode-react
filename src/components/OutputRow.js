@@ -5,13 +5,13 @@ class OutputRow extends React.Component {
         return(
             <tr>
                 <td>
-                    1
+                    {this.props.day}
                 </td>
                 <td>
-                    1000m
+                    {this.props.distance}
                 </td>
                 <td>
-                    $3.00
+                    {this.props.priceperkm}
                 </td>
             </tr>
         )

@@ -6,10 +6,10 @@ class PageContainer extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            cost:0,
-            number:0,
-            initial:0,
-            increment:0
+            cost:50,
+            number:20,
+            initial:1000,
+            increment:100
         };
         this.inputChangeHandler = this.inputChangeHandler.bind(this);
     }

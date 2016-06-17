@@ -20409,10 +20409,10 @@
 	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(PageContainer).call(this, props));
 
 	        _this.state = {
-	            cost: 0,
-	            number: 0,
-	            initial: 0,
-	            increment: 0
+	            cost: 50,
+	            number: 20,
+	            initial: 1000,
+	            increment: 100
 	        };
 	        _this.inputChangeHandler = _this.inputChangeHandler.bind(_this);
 	        return _this;
@@ -20504,8 +20504,7 @@
 	                    _react2.default.createElement(_InputNumber2.default, { label: 'Cost', name: 'cost', value: this.props.cost, onChange: this.props.onChange }),
 	                    _react2.default.createElement(_InputNumber2.default, { label: 'Number Of Passes', name: 'number', value: this.props.number, onChange: this.props.onChange }),
 	                    _react2.default.createElement(_InputNumber2.default, { label: 'Initial Distance', name: 'initial', value: this.props.initial, onChange: this.props.onChange }),
-	                    _react2.default.createElement(_InputNumber2.default, { label: 'Increment', name: 'increment', value: this.props.increment, onChange: this.props.onChange }),
-	                    _react2.default.createElement(_CalculateButton2.default, { onClick: this.props.onChange })
+	                    _react2.default.createElement(_InputNumber2.default, { label: 'Increment', name: 'increment', value: this.props.increment, onChange: this.props.onChange })
 	                )
 	            );
 	        }
@@ -20667,6 +20666,21 @@
 	    _createClass(OutputTable, [{
 	        key: 'render',
 	        value: function render() {
+	            var dailyDistance = [];
+	            var totalDistance = 0;
+	            var pricePerKm = [0];
+
+	            for (var i = 0; i < this.props.number; i++) {
+	                dailyDistance[i] = this.props.initial + i * this.props.increment;
+	                totalDistance += dailyDistance[i];
+	                var day = i + 1;
+	                pricePerKm[i] = (this.props.cost / totalDistance * 1000).toFixed(2);
+	            }
+
+	            var dataRows = dailyDistance.map(function (distance, daynumber) {
+	                return _react2.default.createElement(_OutputRow2.default, { day: daynumber + 1, distance: distance, priceperkm: pricePerKm[daynumber] });
+	            });
+
 	            return _react2.default.createElement(
 	                'div',
 	                null,
@@ -20697,10 +20711,7 @@
 	                            '$ per km'
 	                        )
 	                    ),
-	                    _react2.default.createElement(_OutputRow2.default, null),
-	                    _react2.default.createElement(_OutputRow2.default, null),
-	                    _react2.default.createElement(_OutputRow2.default, null),
-	                    _react2.default.createElement(_OutputRow2.default, null)
+	                    dataRows
 	                )
 	            );
 	        }
@@ -20753,17 +20764,17 @@
 	                _react2.default.createElement(
 	                    'td',
 	                    null,
-	                    '1'
+	                    this.props.day
 	                ),
 	                _react2.default.createElement(
 	                    'td',
 	                    null,
-	                    '1000m'
+	                    this.props.distance
 	                ),
 	                _react2.default.createElement(
 	                    'td',
 	                    null,
-	                    '$3.00'
+	                    this.props.priceperkm
 	                )
 	            );
 	        }
