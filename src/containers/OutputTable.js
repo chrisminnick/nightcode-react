@@ -17,7 +17,7 @@ class OutputTable extends React.Component{
 
         const dataRows = dailyDistance.map(function(distance,daynumber) {
             return (
-                <OutputRow day = {daynumber+1} distance = {distance} priceperkm = {pricePerKm[daynumber]}/>
+                <OutputRow day = {daynumber+1} distance = {distance} priceperkm = {pricePerKm[daynumber]} key={daynumber}/>
             )
         });
 
@@ -25,13 +25,14 @@ class OutputTable extends React.Component{
             <div>
                 <p>Here are the results!</p>
                 <table>
+                    <tbody>
                     <tr><th>visit #</th>
                         <th>distance</th>
                         <th>$ per km</th>
                     </tr>
 
                     {dataRows}
-                    
+                    </tbody>
                 </table>
 
             </div>

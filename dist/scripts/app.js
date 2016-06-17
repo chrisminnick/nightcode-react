@@ -20678,7 +20678,7 @@
 	            }
 
 	            var dataRows = dailyDistance.map(function (distance, daynumber) {
-	                return _react2.default.createElement(_OutputRow2.default, { day: daynumber + 1, distance: distance, priceperkm: pricePerKm[daynumber] });
+	                return _react2.default.createElement(_OutputRow2.default, { day: daynumber + 1, distance: distance, priceperkm: pricePerKm[daynumber], key: daynumber });
 	            });
 
 	            return _react2.default.createElement(
@@ -20693,25 +20693,29 @@
 	                    'table',
 	                    null,
 	                    _react2.default.createElement(
-	                        'tr',
+	                        'tbody',
 	                        null,
 	                        _react2.default.createElement(
-	                            'th',
+	                            'tr',
 	                            null,
-	                            'visit #'
+	                            _react2.default.createElement(
+	                                'th',
+	                                null,
+	                                'visit #'
+	                            ),
+	                            _react2.default.createElement(
+	                                'th',
+	                                null,
+	                                'distance'
+	                            ),
+	                            _react2.default.createElement(
+	                                'th',
+	                                null,
+	                                '$ per km'
+	                            )
 	                        ),
-	                        _react2.default.createElement(
-	                            'th',
-	                            null,
-	                            'distance'
-	                        ),
-	                        _react2.default.createElement(
-	                            'th',
-	                            null,
-	                            '$ per km'
-	                        )
-	                    ),
-	                    dataRows
+	                        dataRows
+	                    )
 	                )
 	            );
 	        }
