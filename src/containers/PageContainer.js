@@ -15,8 +15,7 @@ class PageContainer extends React.Component {
     }
 
     inputChangeHandler (name,value) {
-    this.setState({ [name]: value });
-        console.log(name + ":" + value)
+    this.setState({ [name]: Number(value) });
     }
 
 

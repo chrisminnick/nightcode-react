@@ -13,6 +13,9 @@ class OutputRow extends React.Component {
                 <td>
                     {this.props.priceperkm}
                 </td>
+                <td>
+                    {this.props.daytotal}
+                </td>
             </tr>
         )
     }

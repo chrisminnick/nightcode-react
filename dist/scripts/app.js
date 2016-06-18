@@ -172,6 +172,31 @@
 	// shim for using process in browser
 
 	var process = module.exports = {};
+
+	// cached from whatever global is present so that test runners that stub it
+	// don't break things.  But we need to wrap it in a try catch in case it is
+	// wrapped in strict mode code which doesn't define any globals.  It's inside a
+	// function because try/catches deoptimize in certain engines.
+
+	var cachedSetTimeout;
+	var cachedClearTimeout;
+
+	(function () {
+	    try {
+	        cachedSetTimeout = setTimeout;
+	    } catch (e) {
+	        cachedSetTimeout = function cachedSetTimeout() {
+	            throw new Error('setTimeout is not defined');
+	        };
+	    }
+	    try {
+	        cachedClearTimeout = clearTimeout;
+	    } catch (e) {
+	        cachedClearTimeout = function cachedClearTimeout() {
+	            throw new Error('clearTimeout is not defined');
+	        };
+	    }
+	})();
 	var queue = [];
 	var draining = false;
 	var currentQueue;
@@ -196,7 +221,7 @@
 	    if (draining) {
 	        return;
 	    }
-	    var timeout = setTimeout(cleanUpNextTick);
+	    var timeout = cachedSetTimeout(cleanUpNextTick);
 	    draining = true;
 
 	    var len = queue.length;
@@ -213,7 +238,7 @@
 	    }
 	    currentQueue = null;
 	    draining = false;
-	    clearTimeout(timeout);
+	    cachedClearTimeout(timeout);
 	}
 
 	process.nextTick = function (fun) {
@@ -225,7 +250,7 @@
 	    }
 	    queue.push(new Item(fun, args));
 	    if (queue.length === 1 && !draining) {
-	        setTimeout(drainQueue, 0);
+	        cachedSetTimeout(drainQueue, 0);
 	    }
 	};
 
@@ -20421,8 +20446,7 @@
 	    _createClass(PageContainer, [{
 	        key: 'inputChangeHandler',
 	        value: function inputChangeHandler(name, value) {
-	            this.setState(_defineProperty({}, name, value));
-	            console.log(name + ":" + value);
+	            this.setState(_defineProperty({}, name, Number(value)));
 	        }
 	    }, {
 	        key: 'render',
@@ -20646,6 +20670,10 @@
 
 	var _OutputRow2 = _interopRequireDefault(_OutputRow);
 
+	var _TotalOutput = __webpack_require__(174);
+
+	var _TotalOutput2 = _interopRequireDefault(_TotalOutput);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -20667,18 +20695,23 @@
 	        key: 'render',
 	        value: function render() {
 	            var dailyDistance = [];
+	            var pricePerKm = [];
+	            var dailyTotal = [];
 	            var totalDistance = 0;
-	            var pricePerKm = [0];
 
 	            for (var i = 0; i < this.props.number; i++) {
 	                dailyDistance[i] = this.props.initial + i * this.props.increment;
+	                dailyTotal[i] = totalDistance + dailyDistance[i];
 	                totalDistance += dailyDistance[i];
-	                var day = i + 1;
-	                pricePerKm[i] = (this.props.cost / totalDistance * 1000).toFixed(2);
+	                pricePerKm[i] = (this.props.cost / dailyDistance[i] * 1000).toFixed(2);
 	            }
 
 	            var dataRows = dailyDistance.map(function (distance, daynumber) {
-	                return _react2.default.createElement(_OutputRow2.default, { day: daynumber + 1, distance: distance, priceperkm: pricePerKm[daynumber], key: daynumber });
+	                return _react2.default.createElement(_OutputRow2.default, { day: daynumber + 1,
+	                    distance: distance,
+	                    daytotal: dailyTotal[daynumber],
+	                    priceperkm: pricePerKm[daynumber],
+	                    key: daynumber });
 	            });
 
 	            return _react2.default.createElement(
@@ -20712,11 +20745,17 @@
 	                                'th',
 	                                null,
 	                                '$ per km'
+	                            ),
+	                            _react2.default.createElement(
+	                                'td',
+	                                null,
+	                                'total'
 	                            )
 	                        ),
 	                        dataRows
 	                    )
-	                )
+	                ),
+	                _react2.default.createElement(_TotalOutput2.default, { total: totalDistance })
 	            );
 	        }
 	    }]);
@@ -20779,6 +20818,11 @@
 	                    'td',
 	                    null,
 	                    this.props.priceperkm
+	                ),
+	                _react2.default.createElement(
+	                    'td',
+	                    null,
+	                    this.props.daytotal
 	                )
 	            );
 	        }
@@ -20788,6 +20832,57 @@
 	}(_react2.default.Component);
 
 	exports.default = OutputRow;
+
+/***/ },
+/* 174 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var TotalOutput = function (_React$Component) {
+	    _inherits(TotalOutput, _React$Component);
+
+	    function TotalOutput() {
+	        _classCallCheck(this, TotalOutput);
+
+	        return _possibleConstructorReturn(this, Object.getPrototypeOf(TotalOutput).apply(this, arguments));
+	    }
+
+	    _createClass(TotalOutput, [{
+	        key: 'render',
+	        value: function render() {
+
+	            return _react2.default.createElement(
+	                'div',
+	                null,
+	                'Total Km: ',
+	                this.props.total
+	            );
+	        }
+	    }]);
+
+	    return TotalOutput;
+	}(_react2.default.Component);
+
+	exports.default = TotalOutput;
 
 /***/ }
 /******/ ]);
