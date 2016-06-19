@@ -25,6 +25,7 @@
     "webpack": "^1.13.0"
   },
   "dependencies": {
+    "babel-preset-stage-2": "^6.5.0",
     "react": "^15.0.2",
     "react-dom": "^15.0.2",
     "react-redux": "^4.4.5",

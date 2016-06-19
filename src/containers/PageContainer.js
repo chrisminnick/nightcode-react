@@ -1,41 +1,32 @@
 import React from 'react';
+import { connect } from 'react-redux'
+import * as actions from '../actions'
 import InputForm from './InputForm';
 import OutputTable from './OutputTable';
 
 class PageContainer extends React.Component {
-    constructor(props){
-        super(props);
-        this.state = {
-            cost:50,
-            number:20,
-            initial:1000,
-            increment:100
-        };
-        this.inputChangeHandler = this.inputChangeHandler.bind(this);
-    }
-
-    inputChangeHandler (name,value) {
-    this.setState({ [name]: Number(value) });
-    }
-
-
     render() {
+        const store = this.context;
         return(
             <div>
                 <InputForm 
-                    cost = {this.state.cost} 
-                    number = {this.state.number}  
-                    initial = {this.state.initial} 
-                    increment = {this.state.increment}
-                    onChange = {this.inputChangeHandler} />
-                <OutputTable 
-                    cost = {this.state.cost}
-                    number = {this.state.number}
-                    initial = {this.state.initial}
-                    increment = {this.state.increment} />
+                    cost = {this.props.cost}
+                    number = {this.props.number}
+                    initial = {this.props.initial}
+                    increment = {this.props.increment}
+                    />
+                <OutputTable
+                    cost = {this.props.cost}
+                    number = {this.props.number}
+                    initial = {this.props.initial}
+                    increment = {this.props.increment} />
             </div>
         )
     }
 }
 
-export default PageContainer;
+function mapStateToProps(state){
+    return {...state}
+}
+
+export default connect(mapStateToProps)(PageContainer);
