@@ -22453,7 +22453,12 @@
 	                        name: 'number',
 	                        value: this.props.value,
 	                        onChange: function onChange() {
-	                            store.dispatch((0, _actions.changeNumber)(_this2.input.value));
+	                            store.dispatch((0, _actions.changeNumber)(_this2.input.value)
+	                            //this doesn't work, because the ref
+	                            // doesn't get a value until after the
+	                            // component is rendered. But, how else
+	                            // to do this?
+	                            );
 	                        }
 	                    })
 	                )
