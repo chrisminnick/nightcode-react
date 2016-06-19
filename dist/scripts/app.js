@@ -22054,19 +22054,19 @@
 	    switch (action.type) {
 	        case 'CHANGE_COST':
 	            return _extends({}, state, {
-	                cost: action.value
+	                cost: Number(action.value)
 	            });
 	        case 'CHANGE_NUMBER':
 	            return _extends({}, state, {
-	                number: action.value
+	                number: Number(action.value)
 	            });
 	        case 'CHANGE_INITIAL':
 	            return _extends({}, state, {
-	                initial: action.value
+	                initial: Number(action.value)
 	            });
 	        case 'CHANGE_INCREMENT':
 	            return _extends({}, state, {
-	                increment: action.value
+	                increment: Number(action.value)
 	            });
 
 	        default:
@@ -22155,8 +22155,19 @@
 	function mapStateToProps(state) {
 	    return _extends({}, state);
 	}
+	function mapDispatchToProps(dispatch) {
+	    return {
+	        onInputChange: function onInputChange(name, value) {
+	            dispatch({
+	                type: 'CHANGE_INPUT',
+	                name: name,
+	                value: value
+	            });
+	        }
+	    };
+	}
 
-	exports.default = (0, _reactRedux.connect)(mapStateToProps)(PageContainer);
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(PageContainer);
 
 /***/ },
 /* 192 */
@@ -22272,7 +22283,7 @@
 /* 194 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
@@ -22283,6 +22294,10 @@
 	var _react = __webpack_require__(1);
 
 	var _react2 = _interopRequireDefault(_react);
+
+	var _reactRedux = __webpack_require__(168);
+
+	var _actions = __webpack_require__(192);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -22302,29 +22317,27 @@
 	    }
 
 	    _createClass(InputCost, [{
-	        key: "handleChange",
-	        value: function handleChange(event) {
-	            this.props.onChange(this.props.name, this.input.value);
-	        }
-	    }, {
-	        key: "render",
-	        value: function render() {
+	        key: 'render',
+	        value: function render(dispatch) {
 	            var _this2 = this;
 
 	            return _react2.default.createElement(
-	                "div",
+	                'div',
 	                null,
 	                _react2.default.createElement(
-	                    "label",
+	                    'label',
 	                    null,
 	                    this.props.label,
-	                    _react2.default.createElement("input", { ref: function ref(node) {
+	                    _react2.default.createElement('input', { ref: function ref(node) {
 	                            _this2.input = node;
 	                        },
-	                        type: "number",
+	                        type: 'number',
 	                        name: this.props.name,
-	                        onChange: this.handleChange.bind(this),
-	                        value: this.props.value })
+	                        value: this.props.value,
+	                        onChange: function onChange() {
+	                            _this2.props.dispatch((0, _actions.changeCost)(_this2.input.value));
+	                        }
+	                    })
 	                )
 	            );
 	        }
@@ -22333,13 +22346,13 @@
 	    return InputCost;
 	}(_react2.default.Component);
 
-	exports.default = InputCost;
+	exports.default = (0, _reactRedux.connect)()(InputCost);
 
 /***/ },
 /* 195 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
@@ -22350,6 +22363,10 @@
 	var _react = __webpack_require__(1);
 
 	var _react2 = _interopRequireDefault(_react);
+
+	var _reactRedux = __webpack_require__(168);
+
+	var _actions = __webpack_require__(192);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -22369,24 +22386,27 @@
 	    }
 
 	    _createClass(InputInitial, [{
-	        key: "handleChange",
-	        value: function handleChange(event) {
-	            this.props.onChange(this.props.name, event.target.value);
-	        }
-	    }, {
-	        key: "render",
-	        value: function render() {
+	        key: 'render',
+	        value: function render(dispatch) {
+	            var _this2 = this;
+
 	            return _react2.default.createElement(
-	                "div",
+	                'div',
 	                null,
 	                _react2.default.createElement(
-	                    "label",
+	                    'label',
 	                    null,
 	                    this.props.label,
-	                    _react2.default.createElement("input", { type: "number",
+	                    _react2.default.createElement('input', { ref: function ref(node) {
+	                            _this2.input = node;
+	                        },
+	                        type: 'number',
 	                        name: this.props.name,
-	                        onChange: this.handleChange.bind(this),
-	                        value: this.props.value })
+	                        value: this.props.value,
+	                        onChange: function onChange() {
+	                            _this2.props.dispatch((0, _actions.changeInitial)(_this2.input.value));
+	                        }
+	                    })
 	                )
 	            );
 	        }
@@ -22395,7 +22415,7 @@
 	    return InputInitial;
 	}(_react2.default.Component);
 
-	exports.default = InputInitial;
+	exports.default = (0, _reactRedux.connect)()(InputInitial);
 
 /***/ },
 /* 196 */
@@ -22412,6 +22432,8 @@
 	var _react = __webpack_require__(1);
 
 	var _react2 = _interopRequireDefault(_react);
+
+	var _reactRedux = __webpack_require__(168);
 
 	var _actions = __webpack_require__(192);
 
@@ -22434,10 +22456,8 @@
 
 	    _createClass(InputNumber, [{
 	        key: 'render',
-	        value: function render() {
+	        value: function render(dispatch) {
 	            var _this2 = this;
-
-	            var store = this.context.store;
 
 	            return _react2.default.createElement(
 	                'div',
@@ -22450,15 +22470,10 @@
 	                            _this2.input = node;
 	                        },
 	                        type: 'number',
-	                        name: 'number',
+	                        name: this.props.name,
 	                        value: this.props.value,
 	                        onChange: function onChange() {
-	                            store.dispatch((0, _actions.changeNumber)(_this2.input.value)
-	                            //this doesn't work, because the ref
-	                            // doesn't get a value until after the
-	                            // component is rendered. But, how else
-	                            // to do this?
-	                            );
+	                            _this2.props.dispatch((0, _actions.changeNumber)(_this2.input.value));
 	                        }
 	                    })
 	                )
@@ -22469,17 +22484,13 @@
 	    return InputNumber;
 	}(_react2.default.Component);
 
-	InputNumber.contextTypes = {
-	    store: _react2.default.PropTypes.object
-	};
-
-	exports.default = InputNumber;
+	exports.default = (0, _reactRedux.connect)()(InputNumber);
 
 /***/ },
 /* 197 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
@@ -22490,6 +22501,10 @@
 	var _react = __webpack_require__(1);
 
 	var _react2 = _interopRequireDefault(_react);
+
+	var _reactRedux = __webpack_require__(168);
+
+	var _actions = __webpack_require__(192);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -22509,24 +22524,27 @@
 	    }
 
 	    _createClass(InputIncrement, [{
-	        key: "handleChange",
-	        value: function handleChange(event) {
-	            this.props.onChange(this.props.name, event.target.value);
-	        }
-	    }, {
-	        key: "render",
-	        value: function render() {
+	        key: 'render',
+	        value: function render(dispatch) {
+	            var _this2 = this;
+
 	            return _react2.default.createElement(
-	                "div",
+	                'div',
 	                null,
 	                _react2.default.createElement(
-	                    "label",
+	                    'label',
 	                    null,
 	                    this.props.label,
-	                    _react2.default.createElement("input", { type: "number",
+	                    _react2.default.createElement('input', { ref: function ref(node) {
+	                            _this2.input = node;
+	                        },
+	                        type: 'number',
 	                        name: this.props.name,
-	                        onChange: this.handleChange.bind(this),
-	                        value: this.props.value })
+	                        value: this.props.value,
+	                        onChange: function onChange() {
+	                            _this2.props.dispatch((0, _actions.changeIncrement)(_this2.input.value));
+	                        }
+	                    })
 	                )
 	            );
 	        }
@@ -22535,7 +22553,7 @@
 	    return InputIncrement;
 	}(_react2.default.Component);
 
-	exports.default = InputIncrement;
+	exports.default = (0, _reactRedux.connect)()(InputIncrement);
 
 /***/ },
 /* 198 */

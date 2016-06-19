@@ -1,23 +1,29 @@
 import React from 'react';
+import { connect } from 'react-redux'
 
+import { changeCost } from '../actions'
 class InputCost extends React.Component {
-    handleChange(event){
-        this.props.onChange(this.props.name,this.input.value);
-    }
 
-    render() {
+    render(dispatch) {
+
         return (
             <div>
                 <label>{this.props.label}
                     <input ref={node => {this.input = node;}}
                            type="number"
                            name={this.props.name}
-                           onChange={this.handleChange.bind(this)}
-                           value={this.props.value}/>
+                           value={this.props.value}
+                           onChange = {() => {
+                       this.props.dispatch(
+                            changeCost(this.input.value)
+                            )
+                            }}
+                    />
                 </label>
             </div>
         )
     }
 }
 
-export default InputCost;
+
+export default connect()(InputCost);

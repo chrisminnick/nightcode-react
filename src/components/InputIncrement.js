@@ -1,22 +1,29 @@
 import React from 'react';
+import { connect } from 'react-redux'
 
+import { changeIncrement } from '../actions'
 class InputIncrement extends React.Component {
-    handleChange(event){
-        this.props.onChange(this.props.name,event.target.value);
-    }
 
-    render() {
+    render(dispatch) {
+
         return (
             <div>
                 <label>{this.props.label}
-                    <input type="number"
+                    <input ref={node => {this.input = node;}}
+                           type="number"
                            name={this.props.name}
-                           onChange={this.handleChange.bind(this)}
-                           value={this.props.value}/>
+                           value={this.props.value}
+                           onChange = {() => {
+                       this.props.dispatch(
+                            changeIncrement(this.input.value)
+                            )
+                            }}
+                    />
                 </label>
             </div>
         )
     }
 }
 
-export default InputIncrement;
+
+export default connect()(InputIncrement);
