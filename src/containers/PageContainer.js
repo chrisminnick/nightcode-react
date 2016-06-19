@@ -28,5 +28,19 @@ class PageContainer extends React.Component {
 function mapStateToProps(state){
     return {...state}
 }
+function mapDispatchToProps(dispatch) {
+    return {
+        onInputChange: (name, value) => {
+            dispatch({
+                type: 'CHANGE_INPUT',
+                name,
+                value
+            })
+        }
+    };
+}
 
-export default connect(mapStateToProps)(PageContainer);
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps)(PageContainer);

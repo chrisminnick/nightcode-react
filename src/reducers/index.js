@@ -12,22 +12,22 @@ const swimCalc = (state = initialState, action) => {
         case 'CHANGE_COST':
             return {
                 ...state,
-                cost: action.value
+                cost: Number(action.value)
             };
         case 'CHANGE_NUMBER':
             return {
                 ...state,
-                number: action.value
+                number: Number(action.value)
             };
         case 'CHANGE_INITIAL':
             return {
                 ...state,
-                initial: action.value
+                initial: Number(action.value)
             };
         case 'CHANGE_INCREMENT':
             return {
                 ...state,
-                increment: action.value
+                increment: Number(action.value)
             };
 
         default:

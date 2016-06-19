@@ -1,24 +1,21 @@
 import React from 'react';
+import { connect } from 'react-redux'
+
 import { changeNumber } from '../actions'
 class InputNumber extends React.Component {
 
-    render() {
-        const store = this.context.store;
+    render(dispatch) {
 
         return (
             <div>
                 <label>{this.props.label} 
                 <input ref={node => {this.input = node;}}
                        type="number"
-                       name="number"
+                       name={this.props.name}
                        value={this.props.value}
                        onChange = {() => {
-                       store.dispatch(
+                       this.props.dispatch(
                             changeNumber(this.input.value)
-                            //this doesn't work, because the ref
-                            // doesn't get a value until after the
-                            // component is rendered. But, how else
-                            // to do this?
                             )
                             }}
                 />
@@ -28,8 +25,5 @@ class InputNumber extends React.Component {
     }
 }
 
-InputNumber.contextTypes = {
-    store: React.PropTypes.object
-};
 
-export default InputNumber;
+export default connect()(InputNumber);

@@ -1,22 +1,29 @@
 import React from 'react';
+import { connect } from 'react-redux'
 
+import { changeInitial } from '../actions'
 class InputInitial extends React.Component {
-    handleChange(event){
-        this.props.onChange(this.props.name,event.target.value);
-    }
 
-    render() {
+    render(dispatch) {
+
         return (
             <div>
                 <label>{this.props.label}
-                    <input type="number"
+                    <input ref={node => {this.input = node;}}
+                           type="number"
                            name={this.props.name}
-                           onChange={this.handleChange.bind(this)}
-                           value={this.props.value}/>
+                           value={this.props.value}
+                           onChange = {() => {
+                       this.props.dispatch(
+                            changeInitial(this.input.value)
+                            )
+                            }}
+                    />
                 </label>
             </div>
         )
     }
 }
 
-export default InputInitial;
+
+export default connect()(InputInitial);
