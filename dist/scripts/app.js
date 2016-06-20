@@ -22098,8 +22098,6 @@
 
 	var _actions = __webpack_require__(192);
 
-	var actions = _interopRequireWildcard(_actions);
-
 	var _InputForm = __webpack_require__(193);
 
 	var _InputForm2 = _interopRequireDefault(_InputForm);
@@ -22107,8 +22105,6 @@
 	var _OutputTable = __webpack_require__(198);
 
 	var _OutputTable2 = _interopRequireDefault(_OutputTable);
-
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -22155,19 +22151,8 @@
 	function mapStateToProps(state) {
 	    return _extends({}, state);
 	}
-	function mapDispatchToProps(dispatch) {
-	    return {
-	        onInputChange: function onInputChange(name, value) {
-	            dispatch({
-	                type: 'CHANGE_INPUT',
-	                name: name,
-	                value: value
-	            });
-	        }
-	    };
-	}
 
-	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(PageContainer);
+	exports.default = (0, _reactRedux.connect)(mapStateToProps)(PageContainer);
 
 /***/ },
 /* 192 */
@@ -22265,10 +22250,10 @@
 	                _react2.default.createElement(
 	                    'form',
 	                    null,
-	                    _react2.default.createElement(_InputCost2.default, { label: 'Cost', name: 'cost', value: this.props.cost, onChange: this.props.onChange }),
-	                    _react2.default.createElement(_InputNumber2.default, { label: 'Number Of Passes', name: 'number', value: this.props.number, onChange: this.props.onChange }),
-	                    _react2.default.createElement(_InputInitial2.default, { label: 'Initial Distance', name: 'initial', value: this.props.initial, onChange: this.props.onChange }),
-	                    _react2.default.createElement(_InputIncrement2.default, { label: 'Increment', name: 'increment', value: this.props.increment, onChange: this.props.onChange })
+	                    _react2.default.createElement(_InputCost2.default, { label: 'Cost', name: 'cost', value: this.props.cost }),
+	                    _react2.default.createElement(_InputNumber2.default, { label: 'Number Of Passes', name: 'number', value: this.props.number }),
+	                    _react2.default.createElement(_InputInitial2.default, { label: 'Initial Distance', name: 'initial', value: this.props.initial }),
+	                    _react2.default.createElement(_InputIncrement2.default, { label: 'Increment', name: 'increment', value: this.props.increment })
 	                )
 	            );
 	        }

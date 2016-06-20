@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux'
-import * as actions from '../actions'
+import {changeCost,changeNumber,changeInitial,changeIncrement} from '../actions'
 import InputForm from './InputForm';
 import OutputTable from './OutputTable';
 
@@ -28,19 +28,8 @@ class PageContainer extends React.Component {
 function mapStateToProps(state){
     return {...state}
 }
-function mapDispatchToProps(dispatch) {
-    return {
-        onInputChange: (name, value) => {
-            dispatch({
-                type: 'CHANGE_INPUT',
-                name,
-                value
-            })
-        }
-    };
-}
+
 
 
 export default connect(
-    mapStateToProps,
-    mapDispatchToProps)(PageContainer);
+    mapStateToProps)(PageContainer);
