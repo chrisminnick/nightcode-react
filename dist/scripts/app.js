@@ -20566,10 +20566,13 @@
 	var InputNumber = function (_React$Component) {
 	    _inherits(InputNumber, _React$Component);
 
-	    function InputNumber() {
+	    function InputNumber(props) {
 	        _classCallCheck(this, InputNumber);
 
-	        return _possibleConstructorReturn(this, Object.getPrototypeOf(InputNumber).apply(this, arguments));
+	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(InputNumber).call(this, props));
+
+	        _this.handleChange = _this.handleChange.bind(_this);
+	        return _this;
 	    }
 
 	    _createClass(InputNumber, [{
@@ -20589,7 +20592,7 @@
 	                    this.props.label,
 	                    _react2.default.createElement("input", { type: "number",
 	                        name: this.props.name,
-	                        onChange: this.handleChange.bind(this),
+	                        onChange: this.handleChange,
 	                        value: this.props.value })
 	                )
 	            );
