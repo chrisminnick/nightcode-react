@@ -56,35 +56,28 @@
 
 	var _reactRedux = __webpack_require__(168);
 
-	var _redux = __webpack_require__(175);
-
-	var _reducers = __webpack_require__(190);
-
-	var _reducers2 = _interopRequireDefault(_reducers);
-
-	var _PageContainer = __webpack_require__(191);
+	var _PageContainer = __webpack_require__(190);
 
 	var _PageContainer2 = _interopRequireDefault(_PageContainer);
 
+	var _configureStore = __webpack_require__(200);
+
+	var _configureStore2 = _interopRequireDefault(_configureStore);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	function configureStore(initialState) {
-	    var store = (0, _redux.createStore)(_reducers2.default, initialState, window.devToolsExtension && window.devToolsExtension());
-	    return store;
-	}
+	var store = (0, _configureStore2.default)();
 
-	var store = configureStore();
+	_reactDom2.default.render(_react2.default.createElement(
+	                        _reactRedux.Provider,
+	                        { store: store },
+	                        _react2.default.createElement(_PageContainer2.default, null)
+	), document.getElementById('app'));
 
-	var render = function render() {
-	    _reactDom2.default.render(_react2.default.createElement(
-	        _reactRedux.Provider,
-	        { store: store },
-	        _react2.default.createElement(_PageContainer2.default, null)
-	    ), document.getElementById('app'));
-	};
+	/*
 
 	store.subscribe(render);
-	render();
+	render();*/
 
 /***/ },
 /* 1 */
@@ -22029,55 +22022,6 @@
 
 /***/ },
 /* 190 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-	var initialState = {
-	    cost: 50,
-	    number: 20,
-	    initial: 1000,
-	    increment: 100
-	};
-
-	var swimCalc = function swimCalc() {
-	    var state = arguments.length <= 0 || arguments[0] === undefined ? initialState : arguments[0];
-	    var action = arguments[1];
-
-
-	    switch (action.type) {
-	        case 'CHANGE_COST':
-	            return _extends({}, state, {
-	                cost: Number(action.value)
-	            });
-	        case 'CHANGE_NUMBER':
-	            return _extends({}, state, {
-	                number: Number(action.value)
-	            });
-	        case 'CHANGE_INITIAL':
-	            return _extends({}, state, {
-	                initial: Number(action.value)
-	            });
-	        case 'CHANGE_INCREMENT':
-	            return _extends({}, state, {
-	                increment: Number(action.value)
-	            });
-
-	        default:
-	            return state;
-	    }
-	};
-
-	exports.default = swimCalc;
-
-/***/ },
-/* 191 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -22096,15 +22040,21 @@
 
 	var _reactRedux = __webpack_require__(168);
 
-	var _actions = __webpack_require__(192);
+	var _redux = __webpack_require__(175);
 
-	var _InputForm = __webpack_require__(193);
+	var _actions = __webpack_require__(191);
+
+	var actions = _interopRequireWildcard(_actions);
+
+	var _InputForm = __webpack_require__(192);
 
 	var _InputForm2 = _interopRequireDefault(_InputForm);
 
-	var _OutputTable = __webpack_require__(198);
+	var _OutputTable = __webpack_require__(197);
 
 	var _OutputTable2 = _interopRequireDefault(_OutputTable);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -22134,7 +22084,12 @@
 	                    cost: this.props.cost,
 	                    number: this.props.number,
 	                    initial: this.props.initial,
-	                    increment: this.props.increment
+	                    increment: this.props.increment,
+	                    onCostChange: this.props.actions.changeCost,
+	                    onNumberChange: this.props.actions.changeNumber,
+	                    onInitialChange: this.props.actions.changeInitial,
+	                    onIncrementChange: this.props.actions.changeIncrement
+
 	                }),
 	                _react2.default.createElement(_OutputTable2.default, {
 	                    cost: this.props.cost,
@@ -22152,10 +22107,17 @@
 	    return _extends({}, state);
 	}
 
-	exports.default = (0, _reactRedux.connect)(mapStateToProps)(PageContainer);
+	function mapDispatchToProps(dispatch) {
+	    return {
+	        actions: (0, _redux.bindActionCreators)(actions, dispatch)
+
+	    };
+	}
+
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(PageContainer);
 
 /***/ },
-/* 192 */
+/* 191 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -22192,7 +22154,7 @@
 	};
 
 /***/ },
-/* 193 */
+/* 192 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -22207,19 +22169,19 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _InputCost = __webpack_require__(194);
+	var _InputCost = __webpack_require__(193);
 
 	var _InputCost2 = _interopRequireDefault(_InputCost);
 
-	var _InputInitial = __webpack_require__(195);
+	var _InputInitial = __webpack_require__(194);
 
 	var _InputInitial2 = _interopRequireDefault(_InputInitial);
 
-	var _InputNumber = __webpack_require__(196);
+	var _InputNumber = __webpack_require__(195);
 
 	var _InputNumber2 = _interopRequireDefault(_InputNumber);
 
-	var _InputIncrement = __webpack_require__(197);
+	var _InputIncrement = __webpack_require__(196);
 
 	var _InputIncrement2 = _interopRequireDefault(_InputIncrement);
 
@@ -22250,10 +22212,10 @@
 	                _react2.default.createElement(
 	                    'form',
 	                    null,
-	                    _react2.default.createElement(_InputCost2.default, { label: 'Cost', name: 'cost', value: this.props.cost }),
-	                    _react2.default.createElement(_InputNumber2.default, { label: 'Number Of Passes', name: 'number', value: this.props.number }),
-	                    _react2.default.createElement(_InputInitial2.default, { label: 'Initial Distance', name: 'initial', value: this.props.initial }),
-	                    _react2.default.createElement(_InputIncrement2.default, { label: 'Increment', name: 'increment', value: this.props.increment })
+	                    _react2.default.createElement(_InputCost2.default, { label: 'Cost', name: 'cost', value: this.props.cost, onChange: this.props.onCostChange }),
+	                    _react2.default.createElement(_InputNumber2.default, { label: 'Number Of Passes', name: 'number', value: this.props.number, onChange: this.props.onNumberChange }),
+	                    _react2.default.createElement(_InputInitial2.default, { label: 'Initial Distance', name: 'initial', value: this.props.initial, onChange: this.props.onInitialChange }),
+	                    _react2.default.createElement(_InputIncrement2.default, { label: 'Increment', name: 'increment', value: this.props.increment, onChange: this.props.onIncrementChange })
 	                )
 	            );
 	        }
@@ -22265,7 +22227,7 @@
 	exports.default = InputForm;
 
 /***/ },
-/* 194 */
+/* 193 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -22282,7 +22244,7 @@
 
 	var _reactRedux = __webpack_require__(168);
 
-	var _actions = __webpack_require__(192);
+	var _actions = __webpack_require__(191);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -22302,9 +22264,13 @@
 	    }
 
 	    _createClass(InputCost, [{
+	        key: 'handleChange',
+	        value: function handleChange(event) {
+	            this.props.onChange(event.target.value);
+	        }
+	    }, {
 	        key: 'render',
-	        value: function render(dispatch) {
-	            var _this2 = this;
+	        value: function render() {
 
 	            return _react2.default.createElement(
 	                'div',
@@ -22313,15 +22279,10 @@
 	                    'label',
 	                    null,
 	                    this.props.label,
-	                    _react2.default.createElement('input', { ref: function ref(node) {
-	                            _this2.input = node;
-	                        },
-	                        type: 'number',
+	                    _react2.default.createElement('input', { type: 'number',
 	                        name: this.props.name,
 	                        value: this.props.value,
-	                        onChange: function onChange() {
-	                            _this2.props.dispatch((0, _actions.changeCost)(_this2.input.value));
-	                        }
+	                        onChange: this.handleChange.bind(this)
 	                    })
 	                )
 	            );
@@ -22331,10 +22292,10 @@
 	    return InputCost;
 	}(_react2.default.Component);
 
-	exports.default = (0, _reactRedux.connect)()(InputCost);
+	exports.default = InputCost;
 
 /***/ },
-/* 195 */
+/* 194 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -22351,7 +22312,7 @@
 
 	var _reactRedux = __webpack_require__(168);
 
-	var _actions = __webpack_require__(192);
+	var _actions = __webpack_require__(191);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -22371,8 +22332,13 @@
 	    }
 
 	    _createClass(InputInitial, [{
+	        key: 'handleChange',
+	        value: function handleChange(event) {
+	            this.props.onChange(event.target.value);
+	        }
+	    }, {
 	        key: 'render',
-	        value: function render(dispatch) {
+	        value: function render() {
 	            var _this2 = this;
 
 	            return _react2.default.createElement(
@@ -22388,9 +22354,7 @@
 	                        type: 'number',
 	                        name: this.props.name,
 	                        value: this.props.value,
-	                        onChange: function onChange() {
-	                            _this2.props.dispatch((0, _actions.changeInitial)(_this2.input.value));
-	                        }
+	                        onChange: this.handleChange.bind(this)
 	                    })
 	                )
 	            );
@@ -22400,10 +22364,10 @@
 	    return InputInitial;
 	}(_react2.default.Component);
 
-	exports.default = (0, _reactRedux.connect)()(InputInitial);
+	exports.default = InputInitial;
 
 /***/ },
-/* 196 */
+/* 195 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -22420,7 +22384,7 @@
 
 	var _reactRedux = __webpack_require__(168);
 
-	var _actions = __webpack_require__(192);
+	var _actions = __webpack_require__(191);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -22440,8 +22404,13 @@
 	    }
 
 	    _createClass(InputNumber, [{
+	        key: 'handleChange',
+	        value: function handleChange(event) {
+	            this.props.onChange(event.target.value);
+	        }
+	    }, {
 	        key: 'render',
-	        value: function render(dispatch) {
+	        value: function render() {
 	            var _this2 = this;
 
 	            return _react2.default.createElement(
@@ -22457,9 +22426,7 @@
 	                        type: 'number',
 	                        name: this.props.name,
 	                        value: this.props.value,
-	                        onChange: function onChange() {
-	                            _this2.props.dispatch((0, _actions.changeNumber)(_this2.input.value));
-	                        }
+	                        onChange: this.handleChange.bind(this)
 	                    })
 	                )
 	            );
@@ -22469,10 +22436,10 @@
 	    return InputNumber;
 	}(_react2.default.Component);
 
-	exports.default = (0, _reactRedux.connect)()(InputNumber);
+	exports.default = InputNumber;
 
 /***/ },
-/* 197 */
+/* 196 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -22489,7 +22456,7 @@
 
 	var _reactRedux = __webpack_require__(168);
 
-	var _actions = __webpack_require__(192);
+	var _actions = __webpack_require__(191);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -22509,8 +22476,13 @@
 	    }
 
 	    _createClass(InputIncrement, [{
+	        key: 'handleChange',
+	        value: function handleChange(event) {
+	            this.props.onChange(event.target.value);
+	        }
+	    }, {
 	        key: 'render',
-	        value: function render(dispatch) {
+	        value: function render() {
 	            var _this2 = this;
 
 	            return _react2.default.createElement(
@@ -22526,9 +22498,7 @@
 	                        type: 'number',
 	                        name: this.props.name,
 	                        value: this.props.value,
-	                        onChange: function onChange() {
-	                            _this2.props.dispatch((0, _actions.changeIncrement)(_this2.input.value));
-	                        }
+	                        onChange: this.handleChange.bind(this)
 	                    })
 	                )
 	            );
@@ -22538,10 +22508,10 @@
 	    return InputIncrement;
 	}(_react2.default.Component);
 
-	exports.default = (0, _reactRedux.connect)()(InputIncrement);
+	exports.default = InputIncrement;
 
 /***/ },
-/* 198 */
+/* 197 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -22556,11 +22526,11 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _OutputRow = __webpack_require__(199);
+	var _OutputRow = __webpack_require__(198);
 
 	var _OutputRow2 = _interopRequireDefault(_OutputRow);
 
-	var _TotalOutput = __webpack_require__(200);
+	var _TotalOutput = __webpack_require__(199);
 
 	var _TotalOutput2 = _interopRequireDefault(_TotalOutput);
 
@@ -22656,7 +22626,7 @@
 	exports.default = OutputTable;
 
 /***/ },
-/* 199 */
+/* 198 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -22724,7 +22694,7 @@
 	exports.default = OutputRow;
 
 /***/ },
-/* 200 */
+/* 199 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -22773,6 +22743,79 @@
 	}(_react2.default.Component);
 
 	exports.default = TotalOutput;
+
+/***/ },
+/* 200 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.default = configureStore;
+
+	var _redux = __webpack_require__(175);
+
+	var _reducers = __webpack_require__(201);
+
+	var _reducers2 = _interopRequireDefault(_reducers);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function configureStore(initialState) {
+	    var store = (0, _redux.createStore)(_reducers2.default, initialState, window.devToolsExtension && window.devToolsExtension());
+	    return store;
+	}
+
+/***/ },
+/* 201 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var initialState = {
+	    cost: 50,
+	    number: 20,
+	    initial: 1000,
+	    increment: 100
+	};
+
+	var swimCalc = function swimCalc() {
+	    var state = arguments.length <= 0 || arguments[0] === undefined ? initialState : arguments[0];
+	    var action = arguments[1];
+
+
+	    switch (action.type) {
+	        case 'CHANGE_COST':
+	            return _extends({}, state, {
+	                cost: Number(action.value)
+	            });
+	        case 'CHANGE_NUMBER':
+	            return _extends({}, state, {
+	                number: Number(action.value)
+	            });
+	        case 'CHANGE_INITIAL':
+	            return _extends({}, state, {
+	                initial: Number(action.value)
+	            });
+	        case 'CHANGE_INCREMENT':
+	            return _extends({}, state, {
+	                increment: Number(action.value)
+	            });
+
+	        default:
+	            return state;
+	    }
+	};
+
+	exports.default = swimCalc;
 
 /***/ }
 /******/ ]);

@@ -3,8 +3,10 @@ import { connect } from 'react-redux'
 
 import { changeInitial } from '../actions'
 class InputInitial extends React.Component {
-
-    render(dispatch) {
+    handleChange(event){
+        this.props.onChange(event.target.value);
+    }
+    render() {
 
         return (
             <div>
@@ -13,11 +15,7 @@ class InputInitial extends React.Component {
                            type="number"
                            name={this.props.name}
                            value={this.props.value}
-                           onChange = {() => {
-                       this.props.dispatch(
-                            changeInitial(this.input.value)
-                            )
-                            }}
+                           onChange = {this.handleChange.bind(this)}
                     />
                 </label>
             </div>
@@ -26,4 +24,4 @@ class InputInitial extends React.Component {
 }
 
 
-export default connect()(InputInitial);
+export default InputInitial;

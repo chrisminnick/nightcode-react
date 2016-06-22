@@ -11,10 +11,10 @@ class InputForm extends React.Component {
         return (
             <div>
                 <form>
-                <InputCost label="Cost" name="cost" value = {this.props.cost}/>
-                <InputNumber label="Number Of Passes" name="number" value = {this.props.number}/>
-                <InputInitial label="Initial Distance" name="initial" value={this.props.initial}/>
-                <InputIncrement label="Increment" name="increment" value={this.props.increment}/>
+                <InputCost label="Cost" name="cost" value = {this.props.cost} onChange={this.props.onCostChange} />
+                <InputNumber label="Number Of Passes" name="number" value = {this.props.number} onChange={this.props.onNumberChange} />
+                <InputInitial label="Initial Distance" name="initial" value={this.props.initial} onChange={this.props.onInitialChange} />
+                <InputIncrement label="Increment" name="increment" value={this.props.increment} onChange={this.props.onIncrementChange} />
                 </form>
             </div>
         )
