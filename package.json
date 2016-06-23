@@ -20,9 +20,10 @@
     "del": "^2.2.0",
     "gulp": "github:gulpjs/gulp#4.0",
     "gulp-cli": "github:gulpjs/gulp-cli#4.0",
-    "webpack-stream": "^3.2.0",
     "gulp-webserver": "^0.9.1",
-    "webpack": "^1.13.0"
+    "redux-immutable-state-invariant": "^1.2.3",
+    "webpack": "^1.13.0",
+    "webpack-stream": "^3.2.0"
   },
   "dependencies": {
     "babel-preset-stage-2": "^6.5.0",
