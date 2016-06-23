@@ -1,12 +1,11 @@
 import React from 'react';
 
-class TotalOutput extends React.Component {
-    render() {
-        
-        return (
-            <div>Total Km: {this.props.total}</div>
-        )
-    }
+function TotalOutput(props) {
+
+    return (
+        <div>Total Km: {props.total}</div>
+    );
+
 }
 
 export default TotalOutput;

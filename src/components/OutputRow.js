@@ -1,23 +1,21 @@
 import React from 'react';
 
-class OutputRow extends React.Component {
-    render(){
+function OutputRow(props) {
         return(
             <tr>
                 <td>
-                    {this.props.day}
+                    {props.day}
                 </td>
                 <td>
-                    {this.props.distance}
+                    {props.distance}
                 </td>
                 <td>
-                    {this.props.priceperkm}
+                    {props.priceperkm}
                 </td>
                 <td>
-                    {this.props.daytotal}
+                    {props.daytotal}
                 </td>
             </tr>
-        )
-    }
+        );
 }
 export default OutputRow;
